@@ -8,6 +8,7 @@ class Individual:
         self.__position = np.random.rand(cf.get_dimension()) * (cf.get_max_domain() - cf.get_min_domain())  + cf.get_min_domain()
         self.__fitness = fn.calculation(self.__position,0) # iteration = 0
         self.__intensity = 1 / (1 + self.__fitness) # for minimize problem
+        self.__strategy = "null"
 
     def get_fitness(self):
         return self.__fitness
@@ -20,6 +21,12 @@ class Individual:
 
     def set_position(self, position):
         self.__position = position
+
+    def get_strategy(self):
+        return self.__strategy
+    
+    def set_strategy(self, strategy):
+        self.__strategy = strategy
 
     def generate(self, a, b, c, R):
         for i in range(len(self.__position)):

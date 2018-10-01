@@ -26,8 +26,6 @@ results = open("results" + os.sep + "results.csv", "w")
 results_writer = csv.writer(results, lineterminator="\n")
 
 
-
-
 def main():
     for trial in range(cf.get_trial()):
         np.random.seed(trial)
@@ -43,10 +41,14 @@ def main():
         #     os.mkdir("results" + os.sep + "tmp" + os.sep + str(trial))
 
         results_list = [] # fitness list
-        de_list = [] # firefly list
+        de_list1 = [] # population list
+        de_list2 = [] 
         """Generate Initial Population"""
         for p in range(cf.get_population_size()):
-            de_list.append(id.Individual())
+            de_list1.append(id.Individual())
+
+        for p in range(cf.get_population_size()):
+            de_list2.append(id.Individual())
 
         """Sort Array"""
         de_list =  sorted(de_list, key=lambda ID : ID.get_fitness())
@@ -77,10 +79,12 @@ def main():
                 candidate = copy.deepcopy(tmp_list[i])
 
                 """select three points (a, b, c)"""
-                # a = np.random.randint(0, cf.get_population_size())
-                # while (a == i):
-                #     a = np.random.randint(0, cf.get_population_size())
-                a = 0
+                if(de_list[i].get):
+                    a = np.random.randint(0, cf.get_population_size())
+                    while (a == i):
+                        a = np.random.randint(0, cf.get_population_size())
+                else:
+                    a = 0
                 b = np.random.randint(0, cf.get_population_size())
                 while (b == i or a == b):
                     b = np.random.randint(0, cf.get_population_size())
