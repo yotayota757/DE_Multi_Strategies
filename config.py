@@ -2,6 +2,7 @@ import numpy as np
 class Config:
     __PopulationSize1 = 50 # Population Size (default = 100)
     __PopulationSize2 = 50
+    # __PopulationSize = 100
     __MaxDomain = 500 # variable upper limit
     __MinDomain = -500 # variable lower limit
     __Dimension = 2 # The number of dimension
@@ -17,6 +18,10 @@ class Config:
     @classmethod
     def get_population_size_2(cls):
         return cls.__PopulationSize2
+    
+    # @classmethod
+    # def get_population_size(cls):
+    #     return cls.__PopulationSize
 
     @classmethod
     def get_F(cls):

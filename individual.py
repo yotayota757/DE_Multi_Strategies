@@ -28,12 +28,53 @@ class Individual:
     def set_strategy(self, strategy):
         self.__strategy = strategy
 
-    def generate(self, a, b, c, R):
+    def rand_1(self,selfIndex,de_list):
+        """select three points (a, b, c)"""
+        a = np.random.randint(0, len(de_list))
+        while (a == selfIndex):
+            a = np.random.randint(0, len(de_list))
+        b = np.random.randint(0, len(de_list))
+        while (b == selfIndex or a == b):
+            b = np.random.randint(0, len(de_list))
+        c = np.random.randint(0, len(de_list))
+        while (c == selfIndex or c == a or c == b):
+            c = np.random.randint(0, len(de_list)) 
+
+        """Select Random Index (R)"""
+        R = np.random.randint(0,cf.get_dimension())
+
+        # 次元数毎に更新を行う
         for i in range(len(self.__position)):
             rnd = np.random.rand()
             if (rnd < cf.get_CR() or i == R):
                 """update equation"""
-                self.__position[i] = a.get_position()[i] + cf.get_F() * (b.get_position()[i] - c.get_position()[i])
+                self.__position[i] = de_list[a].get_position()[i] + cf.get_F() * (de_list[b].get_position()[i] - de_list[c].get_position()[i])
+                if (self.__position[i] > cf.get_max_domain()):
+                    self.__position[i] = cf.get_max_domain()
+                if (self.__position[i] < cf.get_min_domain()):
+                    self.__position[i] = cf.get_min_domain()
+    
+    def global_1(self,selfIndex,de_list):
+        """select three points (a, b, c)"""
+        a = 0
+        while (a == selfIndex):
+            a = np.random.randint(0, len(de_list))
+        b = np.random.randint(0, len(de_list))
+        while (b == selfIndex or a == b):
+            b = np.random.randint(0, len(de_list))
+        c = np.random.randint(0, len(de_list))
+        while (c == selfIndex or c == a or c == b):
+            c = np.random.randint(0, len(de_list)) 
+
+        """Select Random Index (R)"""
+        R = np.random.randint(0,cf.get_dimension())
+
+        # 次元数毎に更新を行う
+        for i in range(len(self.__position)):
+            rnd = np.random.rand()
+            if (rnd < cf.get_CR() or i == R):
+                """update equation"""
+                self.__position[i] = de_list[a].get_position()[i] + cf.get_F() * (de_list[b].get_position()[i] - de_list[c].get_position()[i])
                 if (self.__position[i] > cf.get_max_domain()):
                     self.__position[i] = cf.get_max_domain()
                 if (self.__position[i] < cf.get_min_domain()):
