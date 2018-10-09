@@ -5,6 +5,9 @@ import function as fn
 
 class Individual:
     def __init__(self):
+        self.init(0)
+
+    def init(self, iteration):
         self.__position = np.random.rand(cf.get_dimension()) * (cf.get_max_domain() - cf.get_min_domain())  + cf.get_min_domain()
         self.__fitness = fn.calculation(self.__position,0) # iteration = 0
         self.__intensity = 1 / (1 + self.__fitness) # for minimize problem
@@ -22,11 +25,11 @@ class Individual:
     def set_position(self, position):
         self.__position = position
 
-    def get_strategy(self):
-        return self.__strategy
+    # def get_strategy(self):
+    #     return self.__strategy
     
-    def set_strategy(self, strategy):
-        self.__strategy = strategy
+    # def set_strategy(self, strategy):
+    #     self.__strategy = strategy
 
     def rand_1(self,selfIndex,de_list):
         """select three points (a, b, c)"""
@@ -79,7 +82,6 @@ class Individual:
                     self.__position[i] = cf.get_max_domain()
                 if (self.__position[i] < cf.get_min_domain()):
                     self.__position[i] = cf.get_min_domain()
-
 
     def print_info(self,i):
         print("id:","{0:3d}".format(i),

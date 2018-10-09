@@ -1,11 +1,11 @@
 import numpy as np
 class Config:
     __PopulationSize1 = 50 # Population Size (default = 100)
-    __PopulationSize2 = 25
+    __PopulationSize2 = 50
     # __PopulationSize = 100
     __MaxDomain = 500 # variable upper limit
     __MinDomain = -500 # variable lower limit
-    __Dimension = 2 # The number of dimension
+    __Dimension = 16 # The number of dimension
     __F = 0.8 # differential weight
     __CR = 0.5 # crossover probability
     __Trial = 31
