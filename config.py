@@ -1,17 +1,27 @@
 import numpy as np
 class Config:
-    __PopulationSize = 100 # Population Size (default = 15)
+    __PopulationSize1 = 50 # Population Size (default = 100)
+    __PopulationSize2 = 50
+    # __PopulationSize = 100
     __MaxDomain = 500 # variable upper limit
     __MinDomain = -500 # variable lower limit
-    __Dimension = 2 # The number of dimension
+    __Dimension = 16 # The number of dimension
     __F = 0.8 # differential weight
     __CR = 0.5 # crossover probability
     __Trial = 31
     __Iteration = 6000
 
     @classmethod
-    def get_population_size(cls):
-        return cls.__PopulationSize
+    def get_population_size_1(cls):
+        return cls.__PopulationSize1
+
+    @classmethod
+    def get_population_size_2(cls):
+        return cls.__PopulationSize2
+    
+    # @classmethod
+    # def get_population_size(cls):
+    #     return cls.__PopulationSize
 
     @classmethod
     def get_F(cls):
