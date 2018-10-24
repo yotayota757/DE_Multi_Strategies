@@ -1,8 +1,6 @@
 import numpy as np
 class Config:
-    __PopulationSize1 = 50 # Population Size (default = 100)
-    __PopulationSize2 = 50
-    # __PopulationSize = 100
+    __PopulationSize = 100 # Population Size (default = 100)
     __MaxDomain = 500 # variable upper limit
     __MinDomain = -500 # variable lower limit
     __Dimension = 16 # The number of dimension
@@ -10,18 +8,11 @@ class Config:
     __CR = 0.5 # crossover probability
     __Trial = 31
     __Iteration = 6000
-
-    @classmethod
-    def get_population_size_1(cls):
-        return cls.__PopulationSize1
-
-    @classmethod
-    def get_population_size_2(cls):
-        return cls.__PopulationSize2
+    __A = 0.5 # population raito
     
-    # @classmethod
-    # def get_population_size(cls):
-    #     return cls.__PopulationSize
+    @classmethod
+    def get_population_size(cls):
+        return cls.__PopulationSize
 
     @classmethod
     def get_F(cls):
@@ -59,6 +50,13 @@ class Config:
     def set_min_domain(cls, _min_domain):
         cls.__MinDomain = _min_domain
 
+    @classmethod
+    def set_population_ratio(cls, ratio):
+        cls.__A = ratio
+
+    @classmethod
+    def get_population_ratio(cls):
+        return cls.__A
 
 
 

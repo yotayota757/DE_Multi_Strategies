@@ -41,18 +41,18 @@ def main():
         #     os.mkdir("results" + os.sep + "tmp" + os.sep + str(trial))
 
         results_list = [] # fitness list
-        de_list1 = [] # population list
-        de_list2 = [] 
-        # de_list = []
-        """Generate Initial Population"""
-        for p in range(cf.get_population_size_1()):
-            de_list1.append(id.Individual())
+        # de_list1 = [] # population list
+        # de_list2 = [] 
+        de_all_list = []
 
-        for p in range(cf.get_population_size_2()):
-            de_list2.append(id.Individual())
-        
-        # for p in range(cf.get_population_size()):
-        #     de_list.append(id.Individual())
+        """Generate Initial Population"""
+        for p in range(cf.get_population_size()):
+            de_all_list.append(id.Individual())
+
+        """"split list into two list"""
+        split_index = (int)(cf.get_population_ratio()*cf.get_population_size())
+        de_list1 = de_all_list[:split_index]
+        de_list2 = de_all_list[split_index:]
 
         """Sort Array"""
         de_list1 =  sorted(de_list1, key=lambda ID : ID.get_fitness())
@@ -114,15 +114,23 @@ def main():
                 tmp_list2[i] = copy.deepcopy(candidate)
             
             """Sort Array"""
-            de_list1 = sorted(tmp_list1, key=lambda ID: ID.get_fitness())
-            de_list2 = sorted(tmp_list2, key=lambda ID: ID.get_fitness())
+            # de_list1 = sorted(tmp_list1, key=lambda ID: ID.get_fitness())
+            # de_list2 = sorted(tmp_list2, key=lambda ID: ID.get_fitness())
+            de_all_list = tmp_list1 + tmp_list2
+            # de_all_list.append(tmp_list2) # 型がリストになってしまう
+            de_all_list = sorted(de_all_list, key=lambda ID: ID.get_fitness())
+            split_index = (int)(cf.get_population_ratio()*cf.get_population_size())
+            de_list1 = de_all_list[:split_index]
+            de_list2 = de_all_list[split_index:]
+
 
             # 大域探索で見つけた解が局所探索で見つけた解よりも良かったらlist1の最悪解をlist2の場所にコピー
-            if de_list2[0].get_fitness() < de_list1[0].get_fitness():
-                de_list1[-1].set_position(de_list2[0].get_position())
-                de_list1[-1].set_fitness(fn.calculation(de_list1[-1].get_position(),iteration))
-                de_list1 = sorted(tmp_list1, key=lambda ID: ID.get_fitness())
+            # if de_list2[0].get_fitness() < de_list1[0].get_fitness():
+            #     de_list1[-1].set_position(de_list2[0].get_position())
+            #     de_list1[-1].set_fitness(fn.calculation(de_list1[-1].get_position(),iteration))
+            #     de_list1 = sorted(tmp_list1, key=lambda ID: ID.get_fitness())
 
+            # 前iteration の position
             BestFitness = fn.calculation(BestPosition,iteration)
             # BestFitness2 = fn.calculation(BestPosition2,iteration)
 
