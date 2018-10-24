@@ -5,6 +5,7 @@ import numpy as np
 import os
 import sys
 import glob
+from config import Config as cf
 
 def rastrigin(*X, **kwargs):
   A = kwargs.get('A', 10)
@@ -16,7 +17,7 @@ def schwefel(*X, **kwargs):
     
     
 def main(file_name):
-  population = 50
+  population = (int)(cf.get_population_ratio() * cf.get_population_size())
   data1 = np.genfromtxt(file_name,delimiter=",",max_rows=population)
   data2 = np.genfromtxt(file_name,delimiter=",",skip_header=population)
   name = file_name.replace(".csv","")
