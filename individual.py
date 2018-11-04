@@ -82,6 +82,29 @@ class Individual:
                     self.__position[i] = cf.get_max_domain()
                 if (self.__position[i] < cf.get_min_domain()):
                     self.__position[i] = cf.get_min_domain()
+    
+    def local_neighborhood(self, selfIndex, de_list):
+        # m 近傍個体分のリストを作る
+        distance_dic = {} 
+        self_position = self.get_position()
+        for i in range(len(de_list)):
+            if selfIndex == i:
+                continue
+            current_distance = 0
+            current_position = de_list[i].get_position()
+            for dim in range(cf.get_dimension()):
+                current_distance = current_distance + np.sqrt((self_position[dim] - current_position[dim])**2)
+            # 辞書登録
+            distance_dic[de_list[i]] = current_distance
+        # sort distance_list
+        distance_dic = sorted(distance_dic, key=lambda ID:distance_dic.values())
+        
+        # apply to close_list
+        close_list = []
+        for close_ind in distance_dic.keys():
+            close_list.append(close_ind)
+
+        self.rand_1(selfIndex,close_list)
 
     def print_info(self,i):
         print("id:","{0:3d}".format(i),
