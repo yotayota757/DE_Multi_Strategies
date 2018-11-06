@@ -104,14 +104,15 @@ def main():
 
                 # candidate.generate(a=de_list[a], b=de_list[b], c=de_list[c], R=R)
                 # DE動作
-                candidate.init(iteration)
+                candidate.local_neighborhood(i,de_list2)
                 # 評価値の確認
                 candidate.set_fitness(fn.calculation(candidate.get_position(),iteration))
                 tmp_list2[i].set_fitness(fn.calculation(tmp_list2[i].get_position(),iteration))
 
-                # if candidate.get_fitness() < tmp_list2[i].get_fitness():
-                #     tmp_list2[i] = copy.deepcopy(candidate)
-                tmp_list2[i] = copy.deepcopy(candidate)
+                if candidate.get_fitness() < tmp_list2[i].get_fitness():
+                    tmp_list2[i] = copy.deepcopy(candidate)
+                # tmp_list2[i] = copy.deepcopy(candidate)
+            
             
             """Sort Array"""
             # de_list1 = sorted(tmp_list1, key=lambda ID: ID.get_fitness())
@@ -133,6 +134,7 @@ def main():
             # 前iteration の position
             BestFitness = fn.calculation(BestPosition,iteration)
             # BestFitness2 = fn.calculation(BestPosition2,iteration)
+
 
             #Less is better
             """Rank and Find the Current Best"""

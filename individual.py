@@ -96,15 +96,17 @@ class Individual:
                 current_distance = current_distance + np.sqrt((self_position[dim] - current_position[dim])**2)
             # 辞書登録
             distance_dic[de_list[i]] = current_distance
-        # sort distance_list
-        distance_dic = sorted(distance_dic, key=lambda ID:distance_dic.values())
-        
+        # sort by distance
+        close_distances_list = sorted(distance_dic.values())
         # apply to close_list
         close_list = []
-        for close_ind in distance_dic.keys():
-            close_list.append(close_ind)
+        close_distances_list = close_distances_list[:cf.get_number_of_neighbor()]
+        for key,value in distance_dic.items():
+            if value in close_distances_list:
+                close_list.append(key)
 
-        self.rand_1(selfIndex,close_list)
+        # use strategy here
+        self.global_1(selfIndex,close_list)
 
     def print_info(self,i):
         print("id:","{0:3d}".format(i),

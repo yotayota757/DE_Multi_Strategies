@@ -3,12 +3,13 @@ class Config:
     __PopulationSize = 100 # Population Size (default = 100)
     __MaxDomain = 500 # variable upper limit
     __MinDomain = -500 # variable lower limit
-    __Dimension = 16 # The number of dimension
+    __Dimension = 2 # The number of dimension
     __F = 0.8 # differential weight
     __CR = 0.5 # crossover probability
     __Trial = 31
-    __Iteration = 6000
+    __Iteration = 100
     __A = 0.5 # population raito
+    __m = 4 # amount of neighborhood 
     
     @classmethod
     def get_population_size(cls):
@@ -57,6 +58,10 @@ class Config:
     @classmethod
     def get_population_ratio(cls):
         return cls.__A
+
+    @classmethod
+    def get_number_of_neighbor(cls):
+        return cls.__m
 
 
 

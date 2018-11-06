@@ -25,7 +25,7 @@ def main(file_name):
   fig = plt.figure() 
   ax = fig.add_subplot(1,1,1)
 
-  if (int(name) < 30):
+  if (int(name) < 50):
     # ヒートマップ用の値（配列）
     X = np.arange(-5.12, 5.12, 0.01)
     Y = np.arange(-5.12, 5.12, 0.01)
