@@ -4,7 +4,7 @@ class Config:
     __MaxDomain = 500 # variable upper limit
     __MinDomain = -500 # variable lower limit
     __Dimension = 2 # The number of dimension
-    __F = 0.8 # differential weight
+    __F = 1 # differential weight
     __CR = 0.5 # crossover probability
     __Trial = 31
     __Iteration = 100
