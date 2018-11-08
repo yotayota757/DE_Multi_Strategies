@@ -4,12 +4,13 @@ class Config:
     __MaxDomain = 500 # variable upper limit
     __MinDomain = -500 # variable lower limit
     __Dimension = 2 # The number of dimension
-    __F = 1 # differential weight
+    __F = 0.8 # differential weight
     __CR = 0.5 # crossover probability
     __Trial = 31
     __Iteration = 100
     __A = 0.5 # population raito
     __m = 4 # amount of neighborhood 
+    __exclusion_dist = (__MaxDomain-__MinDomain)*__Dimension/20 # exclusinable distance threshold
     
     @classmethod
     def get_population_size(cls):
@@ -62,6 +63,10 @@ class Config:
     @classmethod
     def get_number_of_neighbor(cls):
         return cls.__m
+    
+    @classmethod
+    def get_exclusion_dist(cls):
+        return cls.__exclusion_dist
 
 
 

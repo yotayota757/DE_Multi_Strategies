@@ -101,7 +101,8 @@ class Individual:
             rnd = np.random.rand()
             if (rnd < cf.get_CR() or i == R):
                 """update equation"""
-                self.__position[i] = de_list[selfIndex].get_position()[i] + cf.get_F()*(de_list[selfIndex].get_position()[i])-de_list[a].get_position()[i]+ cf.get_F() * (de_list[b].get_position()[i] - de_list[c].get_position()[i])
+                # self.__position[i] = de_list[selfIndex].get_position()[i] + cf.get_F()*(de_list[selfIndex].get_position()[i]-de_list[a].get_position()[i]) + cf.get_F() * (de_list[b].get_position()[i] - de_list[c].get_position()[i])
+                self.__position[i] = de_list[selfIndex].get_position()[i] + (de_list[selfIndex].get_position()[i]-de_list[a].get_position()[i])+ (de_list[b].get_position()[i] - de_list[c].get_position()[i])
                 if (self.__position[i] > cf.get_max_domain()):
                     self.__position[i] = cf.get_max_domain()
                 if (self.__position[i] < cf.get_min_domain()):
@@ -137,6 +138,7 @@ class Individual:
         for i in range(len(close_list)):
             if all(close_list[i].get_position() == de_list[selfIndex].get_position()):
                 selfIndex = i
+                break
 
         # 戦略をここで使う
         self.currentToBest_1(selfIndex,close_list)

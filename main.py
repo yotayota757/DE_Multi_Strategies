@@ -113,12 +113,27 @@ def main():
                     tmp_list2[i] = copy.deepcopy(candidate)
                 # tmp_list2[i] = copy.deepcopy(candidate)
             
+            """check exclusinable solution"""
+            for i in range(len(tmp_list2)):
+                current_distance = 0
+                for j in range(len(tmp_list2)):
+                    if i == j:
+                        continue 
+                    for dim in range(cf.get_dimension()):
+                        current_distance = current_distance + (tmp_list2[i].get_position()[dim] - tmp_list2[j].get_position()[dim])**2
+                    current_distance =  np.sqrt(current_distance)
+                    if current_distance < cf.get_exclusion_dist():
+                        if tmp_list2[i].get_fitness() > tmp_list2[j].get_fitness():
+                            tmp_list2[i].init(iteration)
+                        else:
+                            tmp_list2[j].init(iteration)
             
             """Sort Array"""
             # de_list1 = sorted(tmp_list1, key=lambda ID: ID.get_fitness())
             # de_list2 = sorted(tmp_list2, key=lambda ID: ID.get_fitness())
             de_all_list = tmp_list1 + tmp_list2
             # de_all_list.append(tmp_list2) # 型がリストになってしまう
+            # 上位A%で切り分け
             de_all_list = sorted(de_all_list, key=lambda ID: ID.get_fitness())
             split_index = (int)(cf.get_population_ratio()*cf.get_population_size())
             de_list1 = de_all_list[:split_index]
