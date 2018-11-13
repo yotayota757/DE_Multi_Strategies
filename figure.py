@@ -14,8 +14,8 @@ def rastrigin(*X, **kwargs):
 def schwefel(*X, **kwargs):
   A = kwargs.get('A', 418.9829)
   return A*len(X) - sum([(x * np.sin(np.sqrt(np.abs(x)))) for x in X])
-    
-    
+
+
 def main(file_name):
   population = (int)(cf.get_population_ratio() * cf.get_population_size())
   data1 = np.genfromtxt(file_name,delimiter=",",max_rows=population)
@@ -51,7 +51,7 @@ def main(file_name):
     ax.scatter(data1[:,0], data1[:,1], c = 'm', alpha = 0.5) # １列目のデータをx軸の値、2列目のデータをy軸の値として与える。
     ax.scatter(data2[:,0], data2[:,1], c = 'w', alpha = 0.5) # 50行目以降
     ax.axis([-512, 512, -512, 512])
-    
+
 
   # ヒートマップ用の値（配列）rastrigin
   # X = np.arange(-5.12, 5.12, 0.01)
@@ -77,18 +77,17 @@ def main(file_name):
   # ax.scatter(data1[:,0], data1[:,1], c = 'm', alpha = 0.5) # 0~50列目のデータをx軸の値、2列目のデータをy軸の値として与える。
   # ax.scatter(data2[:,0], data2[:,1], c = 'w', alpha = 0.5) # 50行目以降
   # ax.axis([-512, 512, -512, 512])
-  
+
 
   fig.savefig("../../figure/" + fig_name + ".png")
   # plt.show() # グラフの描画
   plt.close()
   sys.stdout.write("\r" + fig_name + ".png : 出力完了!")
-  
 
 
 if __name__ == '__main__':
-    os.chdir("./results/position/0/")
-    files = glob.glob("*.csv")
-    for file in files: 
-        # print (file)
-    	main(file)
+  os.chdir("./results/position/0/")
+  files = glob.glob("*.csv")
+  for file in files: 
+    # print (file)
+    main(file)
