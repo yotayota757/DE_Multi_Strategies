@@ -40,6 +40,8 @@ def main():
         # else:
         #     os.mkdir("results" + os.sep + "tmp" + os.sep + str(trial))
 
+        offline = 0
+
         results_list = [] # fitness list
         # de_list1 = [] # population list
         # de_list2 = [] 
@@ -60,12 +62,8 @@ def main():
         # de_list =  sorted(de_list, key=lambda ID : ID.get_fitness())
 
         """Find Initial Best"""
-        BestPosition = de_list1[0].get_position() # Best Solution1
+        BestPosition = de_list1[0].get_position() # Best Solution
         BestFitness = fn.calculation(BestPosition,0)
-        # BestPosition2 = de_list2[0].get_position() # Best Solution2
-        # BestFitness2 = fn.calculation(BestPosition2,0)
-        # BestPosition = de_list[0].get_position() # Best Solution
-        # BestFitness = fn.calculation(BestPosition,0)
 
         """↓↓↓Main Loop↓↓↓"""
         for iteration in range(cf.get_iteration()):
@@ -102,7 +100,6 @@ def main():
             for i in range(len(tmp_list2)):
                 candidate = copy.deepcopy(tmp_list2[i])
 
-                # candidate.generate(a=de_list[a], b=de_list[b], c=de_list[c], R=R)
                 # DE動作
                 candidate.local_neighborhood(i,de_list2)
                 # 評価値の確認
@@ -111,7 +108,6 @@ def main():
 
                 if candidate.get_fitness() < tmp_list2[i].get_fitness():
                     tmp_list2[i] = copy.deepcopy(candidate)
-                # tmp_list2[i] = copy.deepcopy(candidate)
             
             """check exclusinable solution"""
             for i in range(len(tmp_list2)):
@@ -173,7 +169,9 @@ def main():
 
             sys.stdout.write("\r Trial:%3d , Iteration:%7d, BestFitness:%.4f" % (trial , iteration, BestFitness))
             results_list.append(str(BestFitness))
-
+            offline = offline + BestFitness
+        results_list.append("")
+        results_list.append(str(offline/cf.get_iteration()))
         results_writer.writerow(results_list)
 
 if __name__ == '__main__':

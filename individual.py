@@ -9,7 +9,7 @@ class Individual:
 
     def init(self, iteration):
         self.__position = np.random.rand(cf.get_dimension()) * (cf.get_max_domain() - cf.get_min_domain())  + cf.get_min_domain()
-        self.__fitness = fn.calculation(self.__position,0) # iteration = 0
+        self.__fitness = fn.calculation(self.__position,iteration) # iteration = 0
         self.__intensity = 1 / (1 + self.__fitness) # for minimize problem
         self.__strategy = "null"
 
@@ -102,7 +102,7 @@ class Individual:
             if (rnd < cf.get_CR() or i == R):
                 """update equation"""
                 # self.__position[i] = de_list[selfIndex].get_position()[i] + cf.get_F()*(de_list[selfIndex].get_position()[i]-de_list[a].get_position()[i]) + cf.get_F() * (de_list[b].get_position()[i] - de_list[c].get_position()[i])
-                self.__position[i] = de_list[selfIndex].get_position()[i] + (de_list[selfIndex].get_position()[i]-de_list[a].get_position()[i])+ (de_list[b].get_position()[i] - de_list[c].get_position()[i])
+                self.__position[i] = de_list[selfIndex].get_position()[i] + (de_list[selfIndex].get_position()[i]-de_list[a].get_position()[i])+ cf.get_F()*(de_list[b].get_position()[i] - de_list[c].get_position()[i])
                 if (self.__position[i] > cf.get_max_domain()):
                     self.__position[i] = cf.get_max_domain()
                 if (self.__position[i] < cf.get_min_domain()):
@@ -120,7 +120,9 @@ class Individual:
             current_distance = 0
             current_position = de_list[i].get_position()
             for dim in range(cf.get_dimension()):
-                current_distance = current_distance + np.sqrt((self_position[dim] - current_position[dim])**2)
+                # current_distance = current_distance + np.sqrt((self_position[dim] - current_position[dim])**2)
+                current_distance = current_distance + (self_position[dim] - current_position[dim])**2
+            current_distance = np.sqrt(current_distance)
             # 辞書登録
             distance_dic[de_list[i]] = current_distance
         # 距離でソートする
