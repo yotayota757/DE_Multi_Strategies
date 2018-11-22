@@ -25,7 +25,7 @@ def main(file_name):
   fig = plt.figure() 
   ax = fig.add_subplot(1,1,1)
 
-  if (int(name) < 100):
+  if (int(name) < 150):
     # ヒートマップ用の値（配列）
     X = np.arange(-5.12, 5.12, 0.01)
     Y = np.arange(-5.12, 5.12, 0.01)
@@ -35,10 +35,10 @@ def main(file_name):
     # ヒートマップの生成
     ax.imshow(Z, cmap=cm.jet, extent =[-5.12, 5.12, -5.12, 5.12])
     # 解集団のプロット
-    ##ax.scatter(data1[:,0]/100, data1[:,1]/100, c = 'm', alpha = 0.5) # １列目のデータをx軸の値、2列目のデータをy軸の値として与える。   
+    ax.scatter(data1[:,0]/100, data1[:,1]/100, c = 'm', alpha = 0.5) # １列目のデータをx軸の値、2列目のデータをy軸の値として与える。   
     # exclusion範囲の表示
-    ##ax.scatter(data2[:,0]/100, data2[:,1]/100, s = cf.get_exclusion_dist(), c = 'k', alpha = 0.5)
-    ##ax.scatter(data2[:,0]/100, data2[:,1]/100, c = 'w', alpha = 0.5) # 50行目以降
+    ax.scatter(data2[:,0]/100, data2[:,1]/100, s = cf.get_exclusion_dist(), c = 'k', alpha = 0.5)
+    ax.scatter(data2[:,0]/100, data2[:,1]/100, c = 'w', alpha = 0.5) # 50行目以降
     ax.axis([-5.12, 5.12, -5.12, 5.12])
   else:
     # ヒートマップ用の値（配列）
@@ -50,10 +50,10 @@ def main(file_name):
     # ヒートマップの生成
     ax.imshow(Z, cmap=cm.jet, extent =[-512, 512, -512, 512])
     # 解集団のプロット
-    ##ax.scatter(data1[:,0], data1[:,1], c = 'm', alpha = 0.5) # １列目のデータをx軸の値、2列目のデータをy軸の値として与える。
+    ax.scatter(data1[:,0], data1[:,1], c = 'm', alpha = 0.5) # １列目のデータをx軸の値、2列目のデータをy軸の値として与える。
     # exclusion範囲の表示
-    ##ax.scatter(data2[:,0], data2[:,1], s = cf.get_exclusion_dist(), c = 'k', alpha = 0.5)
-    ##ax.scatter(data2[:,0], data2[:,1], c = 'w', alpha = 0.5) # 50行目以降
+    ax.scatter(data2[:,0], data2[:,1], s = cf.get_exclusion_dist(), c = 'k', alpha = 0.5)
+    ax.scatter(data2[:,0], data2[:,1], c = 'w', alpha = 0.5) # 50行目以降
     ax.axis([-512, 512, -512, 512])
     
 
