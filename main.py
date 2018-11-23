@@ -87,7 +87,6 @@ def main():
             for i in range(len(tmp_list1)):
                 candidate = copy.deepcopy(tmp_list1[i])
 
-                # candidate.generate(a=de_list[a], b=de_list[b], c=de_list[c], R=R)
                 # DE動作
                 candidate.global_1(i,de_list1)
                 # 評価値の確認
@@ -109,7 +108,7 @@ def main():
                 if candidate.get_fitness() < tmp_list2[i].get_fitness():
                     tmp_list2[i] = copy.deepcopy(candidate)
             
-            """check exclusinable solution"""
+            """check exclusionable solution"""
             for i in range(len(tmp_list2)):
                 current_distance = 0
                 for j in range(len(tmp_list2)):
@@ -125,8 +124,6 @@ def main():
                             tmp_list2[j].init(iteration)
             
             """Sort Array"""
-            # de_list1 = sorted(tmp_list1, key=lambda ID: ID.get_fitness())
-            # de_list2 = sorted(tmp_list2, key=lambda ID: ID.get_fitness())
             de_all_list = tmp_list1 + tmp_list2
             # de_all_list.append(tmp_list2) # 型がリストになってしまう
             # 上位A%で切り分け
@@ -135,17 +132,8 @@ def main():
             de_list1 = de_all_list[:split_index]
             de_list2 = de_all_list[split_index:]
 
-
-            # 大域探索で見つけた解が局所探索で見つけた解よりも良かったらlist1の最悪解をlist2の場所にコピー
-            # if de_list2[0].get_fitness() < de_list1[0].get_fitness():
-            #     de_list1[-1].set_position(de_list2[0].get_position())
-            #     de_list1[-1].set_fitness(fn.calculation(de_list1[-1].get_position(),iteration))
-            #     de_list1 = sorted(tmp_list1, key=lambda ID: ID.get_fitness())
-
             # 前iteration の position
             BestFitness = fn.calculation(BestPosition,iteration)
-            # BestFitness2 = fn.calculation(BestPosition2,iteration)
-
 
             #Less is better
             """Rank and Find the Current Best"""
@@ -153,10 +141,6 @@ def main():
                 BestPosition = de_list1[0].get_position()
                 BestFitness = fn.calculation(BestPosition,iteration)
             
-            # if de_list2[0].get_fitness() < BestFitness2:
-            #     BestPosition2 = de_list2[0].get_position()
-            #     BestFitness2 = fn.calculation(BestPosition2,iteration)
-
             """Write Moved Position"""
             for i in range (len(de_list1)):
                 pos_writer.writerow(de_list1[i].get_position())

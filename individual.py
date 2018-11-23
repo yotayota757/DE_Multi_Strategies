@@ -11,7 +11,6 @@ class Individual:
         self.__position = np.random.rand(cf.get_dimension()) * (cf.get_max_domain() - cf.get_min_domain())  + cf.get_min_domain()
         self.__fitness = fn.calculation(self.__position,iteration) # iteration = 0
         self.__intensity = 1 / (1 + self.__fitness) # for minimize problem
-        self.__strategy = "null"
 
     def get_fitness(self):
         return self.__fitness
