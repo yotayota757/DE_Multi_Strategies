@@ -50,16 +50,14 @@ def main():
         """Generate Initial Population"""
         for p in range(cf.get_population_size()):
             de_all_list.append(id.Individual())
+        
+        """Sort Array"""
+        de_all_list =  sorted(de_all_list, key=lambda ID : ID.get_fitness())
 
         """"split list into two list"""
         split_index = (int)(cf.get_population_ratio()*cf.get_population_size())
         de_list1 = de_all_list[:split_index]
         de_list2 = de_all_list[split_index:]
-
-        """Sort Array"""
-        de_list1 =  sorted(de_list1, key=lambda ID : ID.get_fitness())
-        de_list2 =  sorted(de_list2, key=lambda ID : ID.get_fitness())
-        # de_list =  sorted(de_list, key=lambda ID : ID.get_fitness())
 
         """Find Initial Best"""
         BestPosition = de_list1[0].get_position() # Best Solution
