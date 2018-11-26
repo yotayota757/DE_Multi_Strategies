@@ -18,9 +18,11 @@ c = np.pi
 
 def calculation(array, t):#as you want
     fitness = 0
-    if(t < 3000):
+    if(t < 150):
         fitness = rastrigin(array)
-    if(t >= 3000):
+        # fitness = schwefel(array)
+    if(t>=150):
+        # fitness = rastrigin(array)
         fitness = schwefel(array)
     # fitness = schwefel(array)
     return fitness

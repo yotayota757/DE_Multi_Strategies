@@ -9,9 +9,8 @@ class Individual:
 
     def init(self, iteration):
         self.__position = np.random.rand(cf.get_dimension()) * (cf.get_max_domain() - cf.get_min_domain())  + cf.get_min_domain()
-        self.__fitness = fn.calculation(self.__position,0) # iteration = 0
+        self.__fitness = fn.calculation(self.__position,iteration) # iteration = 0
         self.__intensity = 1 / (1 + self.__fitness) # for minimize problem
-        self.__strategy = "null"
 
     def get_fitness(self):
         return self.__fitness
@@ -82,6 +81,68 @@ class Individual:
                     self.__position[i] = cf.get_max_domain()
                 if (self.__position[i] < cf.get_min_domain()):
                     self.__position[i] = cf.get_min_domain()
+
+    def currentToBest_1(self,selfIndex,de_list):
+        """select three points (a, b, c)"""
+        a = 0
+        b = np.random.randint(0, len(de_list))
+        while (b == selfIndex or a == b):
+            b = np.random.randint(0, len(de_list))
+        c = np.random.randint(0, len(de_list))
+        while (c == selfIndex or c == a or c == b):
+            c = np.random.randint(0, len(de_list)) 
+
+        """Select Random Index (R)"""
+        R = np.random.randint(0,cf.get_dimension())
+
+        # 次元数毎に更新を行う
+        for i in range(len(self.__position)):
+            rnd = np.random.rand()
+            if (rnd < cf.get_CR() or i == R):
+                """update equation"""
+                # self.__position[i] = de_list[selfIndex].get_position()[i] + cf.get_F()*(de_list[selfIndex].get_position()[i]-de_list[a].get_position()[i]) + cf.get_F() * (de_list[b].get_position()[i] - de_list[c].get_position()[i])
+                self.__position[i] = de_list[selfIndex].get_position()[i] + (de_list[selfIndex].get_position()[i]-de_list[a].get_position()[i])+ cf.get_F()*(de_list[b].get_position()[i] - de_list[c].get_position()[i])
+                if (self.__position[i] > cf.get_max_domain()):
+                    self.__position[i] = cf.get_max_domain()
+                if (self.__position[i] < cf.get_min_domain()):
+                    self.__position[i] = cf.get_min_domain()
+
+    
+    def local_neighborhood(self, selfIndex, de_list):
+        # m 近傍個体分のリストを作る
+        distance_dic = {} 
+        self_position = self.get_position()
+        for i in range(len(de_list)):
+            # 自分をリストに入れるか
+            # if selfIndex == i:
+            #     continue
+            current_distance = 0
+            current_position = de_list[i].get_position()
+            for dim in range(cf.get_dimension()):
+                # current_distance = current_distance + np.sqrt((self_position[dim] - current_position[dim])**2)
+                current_distance = current_distance + (self_position[dim] - current_position[dim])**2
+            current_distance = np.sqrt(current_distance)
+            # 辞書登録
+            distance_dic[de_list[i]] = current_distance
+        # 距離でソートする
+        close_distances_list = sorted(distance_dic.values())
+        # close_listに距離でソートしたm近傍個体を入れる
+        close_list = []
+        close_distances_list = close_distances_list[:cf.get_number_of_neighbor()+1]
+        for key,value in distance_dic.items():
+            if value in close_distances_list:
+                close_list.append(key)
+        
+        # 評価値でソートし直し
+        close_list = sorted(close_list, key=lambda ID:ID.get_fitness())
+        # selfIndex値を調整
+        for i in range(len(close_list)):
+            if all(close_list[i].get_position() == de_list[selfIndex].get_position()):
+                selfIndex = i
+                break
+
+        # 戦略をここで使う
+        self.currentToBest_1(selfIndex,close_list)
 
     def print_info(self,i):
         print("id:","{0:3d}".format(i),

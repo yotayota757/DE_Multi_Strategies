@@ -1,14 +1,16 @@
 import numpy as np
 class Config:
-    __PopulationSize = 100 # Population Size (default = 100)
+    __PopulationSize = 90 # Population Size (default = 100)
     __MaxDomain = 500 # variable upper limit
     __MinDomain = -500 # variable lower limit
-    __Dimension = 16 # The number of dimension
+    __Dimension = 2 # The number of dimension
     __F = 0.8 # differential weight
     __CR = 0.5 # crossover probability
     __Trial = 31
-    __Iteration = 6000
+    __Iteration = 300
     __A = 0.5 # population raito
+    __m = 3 # amount of neighborhood 
+    __exclusion_dist = (__MaxDomain-__MinDomain)*__Dimension/20 # exclusinable distance threshold
     
     @classmethod
     def get_population_size(cls):
@@ -57,6 +59,14 @@ class Config:
     @classmethod
     def get_population_ratio(cls):
         return cls.__A
+
+    @classmethod
+    def get_number_of_neighbor(cls):
+        return cls.__m
+    
+    @classmethod
+    def get_exclusion_dist(cls):
+        return cls.__exclusion_dist
 
 
 

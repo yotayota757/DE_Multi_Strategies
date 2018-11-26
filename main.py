@@ -40,6 +40,8 @@ def main():
         # else:
         #     os.mkdir("results" + os.sep + "tmp" + os.sep + str(trial))
 
+        offline = 0
+
         results_list = [] # fitness list
         # de_list1 = [] # population list
         # de_list2 = [] 
@@ -48,24 +50,18 @@ def main():
         """Generate Initial Population"""
         for p in range(cf.get_population_size()):
             de_all_list.append(id.Individual())
+        
+        """Sort Array"""
+        de_all_list =  sorted(de_all_list, key=lambda ID : ID.get_fitness())
 
         """"split list into two list"""
         split_index = (int)(cf.get_population_ratio()*cf.get_population_size())
         de_list1 = de_all_list[:split_index]
         de_list2 = de_all_list[split_index:]
 
-        """Sort Array"""
-        de_list1 =  sorted(de_list1, key=lambda ID : ID.get_fitness())
-        de_list2 =  sorted(de_list2, key=lambda ID : ID.get_fitness())
-        # de_list =  sorted(de_list, key=lambda ID : ID.get_fitness())
-
         """Find Initial Best"""
-        BestPosition = de_list1[0].get_position() # Best Solution1
+        BestPosition = de_list1[0].get_position() # Best Solution
         BestFitness = fn.calculation(BestPosition,0)
-        # BestPosition2 = de_list2[0].get_position() # Best Solution2
-        # BestFitness2 = fn.calculation(BestPosition2,0)
-        # BestPosition = de_list[0].get_position() # Best Solution
-        # BestFitness = fn.calculation(BestPosition,0)
 
         """↓↓↓Main Loop↓↓↓"""
         for iteration in range(cf.get_iteration()):
@@ -89,7 +85,6 @@ def main():
             for i in range(len(tmp_list1)):
                 candidate = copy.deepcopy(tmp_list1[i])
 
-                # candidate.generate(a=de_list[a], b=de_list[b], c=de_list[c], R=R)
                 # DE動作
                 candidate.global_1(i,de_list1)
                 # 評価値の確認
@@ -102,37 +97,41 @@ def main():
             for i in range(len(tmp_list2)):
                 candidate = copy.deepcopy(tmp_list2[i])
 
-                # candidate.generate(a=de_list[a], b=de_list[b], c=de_list[c], R=R)
                 # DE動作
-                candidate.init(iteration)
+                candidate.local_neighborhood(i,de_list2)
                 # 評価値の確認
                 candidate.set_fitness(fn.calculation(candidate.get_position(),iteration))
                 tmp_list2[i].set_fitness(fn.calculation(tmp_list2[i].get_position(),iteration))
 
-                # if candidate.get_fitness() < tmp_list2[i].get_fitness():
-                #     tmp_list2[i] = copy.deepcopy(candidate)
-                tmp_list2[i] = copy.deepcopy(candidate)
+                if candidate.get_fitness() < tmp_list2[i].get_fitness():
+                    tmp_list2[i] = copy.deepcopy(candidate)
+            
+            """check exclusionable solution"""
+            for i in range(len(tmp_list2)):
+                current_distance = 0
+                for j in range(len(tmp_list2)):
+                    if i == j:
+                        continue 
+                    for dim in range(cf.get_dimension()):
+                        current_distance = current_distance + (tmp_list2[i].get_position()[dim] - tmp_list2[j].get_position()[dim])**2
+                    current_distance =  np.sqrt(current_distance)
+                    if current_distance < cf.get_exclusion_dist():
+                        if tmp_list2[i].get_fitness() > tmp_list2[j].get_fitness():
+                            tmp_list2[i].init(iteration)
+                        else:
+                            tmp_list2[j].init(iteration)
             
             """Sort Array"""
-            # de_list1 = sorted(tmp_list1, key=lambda ID: ID.get_fitness())
-            # de_list2 = sorted(tmp_list2, key=lambda ID: ID.get_fitness())
             de_all_list = tmp_list1 + tmp_list2
             # de_all_list.append(tmp_list2) # 型がリストになってしまう
+            # 上位A%で切り分け
             de_all_list = sorted(de_all_list, key=lambda ID: ID.get_fitness())
             split_index = (int)(cf.get_population_ratio()*cf.get_population_size())
             de_list1 = de_all_list[:split_index]
             de_list2 = de_all_list[split_index:]
 
-
-            # 大域探索で見つけた解が局所探索で見つけた解よりも良かったらlist1の最悪解をlist2の場所にコピー
-            # if de_list2[0].get_fitness() < de_list1[0].get_fitness():
-            #     de_list1[-1].set_position(de_list2[0].get_position())
-            #     de_list1[-1].set_fitness(fn.calculation(de_list1[-1].get_position(),iteration))
-            #     de_list1 = sorted(tmp_list1, key=lambda ID: ID.get_fitness())
-
             # 前iteration の position
             BestFitness = fn.calculation(BestPosition,iteration)
-            # BestFitness2 = fn.calculation(BestPosition2,iteration)
 
             #Less is better
             """Rank and Find the Current Best"""
@@ -140,10 +139,6 @@ def main():
                 BestPosition = de_list1[0].get_position()
                 BestFitness = fn.calculation(BestPosition,iteration)
             
-            # if de_list2[0].get_fitness() < BestFitness2:
-            #     BestPosition2 = de_list2[0].get_position()
-            #     BestFitness2 = fn.calculation(BestPosition2,iteration)
-
             """Write Moved Position"""
             for i in range (len(de_list1)):
                 pos_writer.writerow(de_list1[i].get_position())
@@ -156,7 +151,9 @@ def main():
 
             sys.stdout.write("\r Trial:%3d , Iteration:%7d, BestFitness:%.4f" % (trial , iteration, BestFitness))
             results_list.append(str(BestFitness))
-
+            offline = offline + BestFitness
+        results_list.append("")
+        results_list.append(str(offline/cf.get_iteration()))
         results_writer.writerow(results_list)
 
 if __name__ == '__main__':
