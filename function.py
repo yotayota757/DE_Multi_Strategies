@@ -19,12 +19,12 @@ c = np.pi
 def calculation(array, t):#as you want
     fitness = 0
     if(t < 150):
-        fitness = rastrigin(array)
-        # fitness = schwefel(array)
-    if(t>=150):
         # fitness = rastrigin(array)
         fitness = schwefel(array)
-    # fitness = schwefel(array)
+    if(t>=150):
+        fitness = rastrigin(array)
+        # fitness = schwefel(array)
+    # fitness = multimodal_10valley_move(array,t)
     return fitness
 
 
@@ -99,6 +99,22 @@ def michalewicz(array):#for the number of Dimension is 2
     fitness = -sum
     return fitness
 
+def multimodal_10valley_move(array,iter):
+    #関数設計パラメーター
+    oneCycle_iteration = 150     #ピーク高さ変化の速さ 一巡までのiteration
+    Npeaks = 10     #ピークの個数
+
+    r = 350
+
+    changeSpeed_Z = 1 * np.pi / oneCycle_iteration  #oneCycle_iteration得た変化係数
+    changeSpeed_L = -1 * np.pi / oneCycle_iteration  #oneCycle_iteration得た変化係数
+
+    top = 1
+    for n in range(Npeaks):
+        top -= (np.cos(changeSpeed_Z * iter + n *2*np.pi / Npeaks) + 1)/2 * np.exp(-(np.power(array[0] - r*np.cos(changeSpeed_L * iter + n*2*np.pi/Npeaks), 2)/np.power(40, 2) + np.power(array[1]- r * np.sin(changeSpeed_L * iter + n*2*np.pi/Npeaks), 2)/np.power(40, 2))/2)
+    return top
+
 if __name__ == '__main__':
-    a = np.array([2.20,1.0])
-    print (michalewicz(a))
+    # a = np.array([2.20,1.0])
+    print(calculation(([1,1],[2,2]),1))
+    print(calculation(([1,1],[2,2]),63))
