@@ -1,13 +1,13 @@
 import numpy as np
 class Config:
-    __PopulationSize = 90 # Population Size (default = 100)
-    __MaxDomain = 500 # variable upper limit
-    __MinDomain = -500 # variable lower limit
-    __Dimension = 2 # The number of dimension
+    __PopulationSize = 50 # Population Size (default = 100)
+    __MaxDomain = 100 # variable upper limit
+    __MinDomain = 0 # variable lower limit
+    __Dimension = 5 # The number of dimension
     __F = 0.8 # differential weight
     __CR = 0.5 # crossover probability
-    __Trial = 31
-    __Iteration = 300
+    __Trial = 21
+    __Iteration = 20000
     __A = 0.5 # population raito
     __m = 3 # amount of neighborhood 
     __exclusion_dist = (__MaxDomain-__MinDomain)*__Dimension/20 # exclusinable distance threshold

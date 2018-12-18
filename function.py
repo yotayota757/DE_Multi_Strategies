@@ -15,14 +15,16 @@ c = np.pi
 # def calculation(array, t):#as you want
 #     fitness = singlemoving(array,t)
 #     return fitness
+def calc_mpb(array, t, mpb,evaluate):
+    return mpb.__call__(array,count=evaluate)[0]
 
 def calculation(array, t):#as you want
     fitness = 0
-    if(t < 150):
+    # if(t < 150):
         # fitness = rastrigin(array)
-        fitness = schwefel(array)
-    if(t>=150):
-        fitness = rastrigin(array)
+        # fitness = schwefel(array)
+    # if(t>=150):
+        # fitness = rastrigin(array)
         # fitness = schwefel(array)
     # fitness = multimodal_10valley_move(array,t)
     return fitness

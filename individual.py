@@ -5,13 +5,11 @@ import function as fn
 
 class Individual:
     def __init__(self):
-        self.init(0)
+        self.init()
 
-    def init(self, iteration):
+    def init(self):
         self.__position = np.random.rand(cf.get_dimension()) * (cf.get_max_domain() - cf.get_min_domain())  + cf.get_min_domain()
-        self.__fitness = fn.calculation(self.__position,iteration) # iteration = 0
-        self.__intensity = 1 / (1 + self.__fitness) # for minimize problem
-
+    
     def get_fitness(self):
         return self.__fitness
 
@@ -142,7 +140,7 @@ class Individual:
                 break
 
         # 戦略をここで使う
-        self.currentToBest_1(selfIndex,close_list)
+        self.rand_1(selfIndex,close_list)
 
     def print_info(self,i):
         print("id:","{0:3d}".format(i),

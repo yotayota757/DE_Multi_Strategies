@@ -6,6 +6,7 @@ import os
 import sys
 import glob
 from config import Config as cf
+from movingpeaks import MovingPeaks
 
 def rastrigin(*X, **kwargs):
   A = kwargs.get('A', 10)
@@ -44,7 +45,7 @@ def main(file_name):
     
     # ヒートマップ用の値（配列）
     X = np.arange(-5.12, 5.12, 0.01)
-    Y = np.arange(-5.12, 5.12, 0.01)
+    Y = np.arange(5.12, -5.12, -0.01)
     X,Y = np.meshgrid(X, Y)
     # 背景関数
     Z = rastrigin(X, Y, A=10)
@@ -121,10 +122,58 @@ def main(file_name):
   plt.close()
   sys.stdout.write("\r" + fig_name + ".png : 出力完了!")
 
+def get_mpb_eval(*X,**kwargs):
+  mpb = kwargs.get("instance")
+  return [mpb.__call__(x, count=False)[0] for x in X]
+
+def movingPeakBenchmark(file_name,mpb):
+  population = (int)(cf.get_population_ratio() * cf.get_population_size())
+  data1 = np.genfromtxt(file_name,delimiter=",",max_rows=population)
+  data2 = np.genfromtxt(file_name,delimiter=",",skip_header=population)
+  name = file_name.replace(".csv","")
+  fig_name = name.zfill(6)
+  fig = plt.figure() 
+  ax = fig.add_subplot(1,1,1)
+  
+  # ヒートマップ用の値（配列）
+  # X = np.arange(-512, 512, 1)
+  # Y = np.arange(512, -512, -1)
+  # X,Y = np.meshgrid(X, Y)
+  # 背景関数
+  # Z = get_mpb_eval(X,Y,instance = mpb)
+  Z = []
+  Y = np.arange(100,0,-0.1)
+  X = np.arange(0,100,0.1)
+  for y in Y:
+    z = []
+    for x in X:
+      pos = [x,y]
+      z.append(mpb.__call__(pos, count=False)[0])
+    Z.append(z)
+
+  # ヒートマップの生成
+  ax.imshow(Z, cmap=cm.jet, extent =[0, 100, 0, 100])
+  # 解集団のプロット
+  ax.scatter(data1[:,0], data1[:,1], c = 'm', alpha = 0.5) # １列目のデータをx軸の値、2列目のデータをy軸の値として与える。   
+  # exclusion範囲の表示
+  ax.scatter(data2[:,0], data2[:,1], s = cf.get_exclusion_dist(), c = 'k', alpha = 0.5)
+  ax.scatter(data2[:,0], data2[:,1], c = 'w', alpha = 0.5) # 50行目以降
+  ax.axis([0, 100, 0, 100])
+
+  fig.savefig("../../figure/" + fig_name + ".png")
+  # plt.show() # グラフの描画
+  plt.close()
+  sys.stdout.write("\r" + fig_name + ".png : 出力完了!")
+
 
 if __name__ == '__main__':
   os.chdir("./results/position/0/")
   files = glob.glob("*.csv")
+  # for file in files: 
+  #   main(file)
+  mpb = MovingPeaks(dim=2, npeaks = 10, number_severity=1)
   for file in files: 
+    mpb.changePeaks()
     # print (file)
-    main(file)
+    movingPeakBenchmark(file,mpb)
+
