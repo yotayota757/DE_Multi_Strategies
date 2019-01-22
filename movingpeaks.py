@@ -230,6 +230,7 @@ class MovingPeaks:
 
     def changePeaks(self):
         """Order the peaks to change position, height, width and number."""
+        # for 環境変化知覚
         self.env_changed = True
         # Change the number of peaks
         if self.minpeaks is not None and self.maxpeaks is not None:

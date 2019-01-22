@@ -11,10 +11,6 @@ a = 20
 b = 0.2
 c = np.pi
 
-
-# def calculation(array, t):#as you want
-#     fitness = singlemoving(array,t)
-#     return fitness
 def calc_mpb(array, t, mpb,evaluate):
     return mpb.__call__(array,count=evaluate)[0]
 
@@ -105,12 +101,9 @@ def multimodal_10valley_move(array,iter):
     #関数設計パラメーター
     oneCycle_iteration = 150     #ピーク高さ変化の速さ 一巡までのiteration
     Npeaks = 10     #ピークの個数
-
     r = 350
-
     changeSpeed_Z = 1 * np.pi / oneCycle_iteration  #oneCycle_iteration得た変化係数
     changeSpeed_L = -1 * np.pi / oneCycle_iteration  #oneCycle_iteration得た変化係数
-
     top = 1
     for n in range(Npeaks):
         top -= (np.cos(changeSpeed_Z * iter + n *2*np.pi / Npeaks) + 1)/2 * np.exp(-(np.power(array[0] - r*np.cos(changeSpeed_L * iter + n*2*np.pi/Npeaks), 2)/np.power(40, 2) + np.power(array[1]- r * np.sin(changeSpeed_L * iter + n*2*np.pi/Npeaks), 2)/np.power(40, 2))/2)

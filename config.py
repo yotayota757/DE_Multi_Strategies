@@ -6,11 +6,11 @@ class Config:
     __Dimension = 5 # The number of dimension
     __F = 0.8 # differential weight
     __CR = 0.5 # crossover probability
-    __Trial = 21
-    __Iteration = 20000
+    __Trial = 31
+    __Iteration = 15000
     __A = 0.5 # population raito
     __m = 3 # amount of neighborhood 
-    __exclusion_dist = (__MaxDomain-__MinDomain)*__Dimension/20 # exclusinable distance threshold
+    __exclusion_dist = (__MaxDomain-__MinDomain)/(2*(__PopulationSize)**(1/__Dimension)) # exclusinable distance threshold
     
     @classmethod
     def get_population_size(cls):

@@ -43,8 +43,9 @@ def main():
         # else:
         #     os.mkdir("results" + os.sep + "tmp" + os.sep + str(trial))
 
-        print_image = False
-        mpb = MovingPeaks(dim=cf.get_dimension(), npeaks = 10, number_severity=1)
+        print_image = False #画像出力をするか
+
+        mpb = MovingPeaks(dim=cf.get_dimension(), npeaks = 5, number_severity=1)
         offline = 0
 
         results_list = [] # fitness list
