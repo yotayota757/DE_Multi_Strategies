@@ -1,4 +1,5 @@
 ﻿import numpy as np
+from config import Config as cf
 
 """
 [Reference]
@@ -18,12 +19,12 @@ c = np.pi
 
 def calculation(array, t):#as you want
     fitness = 0
-    if(t < 150):
-        fitness = rastrigin(array)
-        # fitness = schwefel(array)
-    if(t>=150):
-        # fitness = rastrigin(array)
+    if(t < cf.get_iteration()/2):
         fitness = schwefel(array)
+        # fitness = rastrigin_stded(array)
+    else:
+        # fitness = schwefel(array)
+        fitness = rastrigin_stded(array)
     # fitness = schwefel(array)
     return fitness
 

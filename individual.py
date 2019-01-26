@@ -142,7 +142,7 @@ class Individual:
                 break
 
         # 戦略をここで使う
-        self.currentToBest_1(selfIndex,close_list)
+        self.rand_1(selfIndex,close_list)
 
     def print_info(self,i):
         print("id:","{0:3d}".format(i),

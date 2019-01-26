@@ -155,6 +155,7 @@ def main():
         results_list.append("")
         results_list.append(str(offline/cf.get_iteration()))
         results_writer.writerow(results_list)
+        
 
 if __name__ == '__main__':
     main()
