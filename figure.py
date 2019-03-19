@@ -17,6 +17,7 @@ def schwefel(*X, **kwargs):
 
 
 def main(file_name):
+  
   population = (int)(cf.get_population_ratio() * cf.get_population_size())
   data1 = np.genfromtxt(file_name,delimiter=",",max_rows=population)
   data2 = np.genfromtxt(file_name,delimiter=",",skip_header=population)
@@ -25,24 +26,8 @@ def main(file_name):
   fig = plt.figure() 
   ax = fig.add_subplot(1,1,1)
 
-  if (int(name) < 150):
-        # ヒートマップ用の値（配列）
-    X = np.arange(-512, 512, 1)
-    Y = np.arange(512, -512, -1)
-    X,Y = np.meshgrid(X, Y)
-    # 背景関数
-    Z = schwefel(X, Y, A=418.9829)
-    # ヒートマップの生成
-    ax.imshow(Z, cmap=cm.jet, extent =[-512, 512, -512, 512])
-    # 解集団のプロット
-    ax.scatter(data1[:,0], data1[:,1], c = 'm', alpha = 0.5) # １列目のデータをx軸の値、2列目のデータをy軸の値として与える。
-    # exclusion範囲の表示
-    ax.scatter(data2[:,0], data2[:,1], s = cf.get_exclusion_dist(), c = 'k', alpha = 0.5)
-    ax.scatter(data2[:,0], data2[:,1], c = 'w', alpha = 0.5) # 50行目以降
-    ax.axis([-512, 512, -512, 512])
-  else:
-    
-    # ヒートマップ用の値（配列）
+  if (int(name) < 113):
+      # ヒートマップ用の値（配列）
     X = np.arange(-5.12, 5.12, 0.01)
     Y = np.arange(5.12, -5.12, -0.01)
     X,Y = np.meshgrid(X, Y)
@@ -57,6 +42,21 @@ def main(file_name):
     ax.scatter(data2[:,0], data2[:,1], c = 'w', alpha = 0.5) # 50行目以降
     ax.axis([-512, 512, -512, 512])
 
+  else:
+            # ヒートマップ用の値（配列）
+    X = np.arange(-512, 512, 1)
+    Y = np.arange(512, -512, -1)
+    X,Y = np.meshgrid(X, Y)
+    # 背景関数
+    Z = schwefel(X, Y, A=418.9829)
+    # ヒートマップの生成
+    ax.imshow(Z, cmap=cm.jet, extent =[-512, 512, -512, 512])
+    # 解集団のプロット
+    ax.scatter(data1[:,0], data1[:,1], c = 'm', alpha = 0.5) # １列目のデータをx軸の値、2列目のデータをy軸の値として与える。
+    # exclusion範囲の表示
+    ax.scatter(data2[:,0], data2[:,1], s = cf.get_exclusion_dist(), c = 'k', alpha = 0.5)
+    ax.scatter(data2[:,0], data2[:,1], c = 'w', alpha = 0.5) # 50行目以降
+    ax.axis([-512, 512, -512, 512])
 
   # ヒートマップ用の値（配列）rastrigin
   # X = np.arange(-5.12, 5.12, 0.01)

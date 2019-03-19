@@ -17,14 +17,14 @@ c = np.pi
 #     fitness = singlemoving(array,t)
 #     return fitness
 
-def calculation(array, t):#as you want
+def calculation(array, function):#as you want
     fitness = 0
-    if(t < cf.get_iteration()/2):
-        fitness = schwefel(array)
-        # fitness = rastrigin_stded(array)
-    else:
+    if function == "rastrigin":
         # fitness = schwefel(array)
         fitness = rastrigin_stded(array)
+    elif function == "schwefel":
+        fitness = schwefel(array)
+        # fitness = rastrigin_stded(array)
     # fitness = schwefel(array)
     return fitness
 

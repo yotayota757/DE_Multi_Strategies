@@ -4,13 +4,12 @@ from config import Config as cf
 import function as fn
 
 class Individual:
-    def __init__(self):
-        self.init(0)
+    def __init__(self,fnc):
+        self.init(fnc)
 
-    def init(self, iteration):
+    def init(self, fnc):
         self.__position = np.random.rand(cf.get_dimension()) * (cf.get_max_domain() - cf.get_min_domain())  + cf.get_min_domain()
-        self.__fitness = fn.calculation(self.__position,iteration) # iteration = 0
-        self.__intensity = 1 / (1 + self.__fitness) # for minimize problem
+        self.__fitness = fn.calculation(self.__position,fnc) # iteration = 0
 
     def get_fitness(self):
         return self.__fitness

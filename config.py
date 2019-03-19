@@ -8,6 +8,7 @@ class Config:
     __CR = 0.5 # crossover probability
     __Trial = 31
     __Iteration = 300
+    __Evaluation = 27000
     __A = 0.5 # population raito
     __m = 3 # amount of neighborhood 
     __exclusion_dist = (__MaxDomain-__MinDomain)*__Dimension/20 # exclusinable distance threshold
@@ -27,6 +28,10 @@ class Config:
     @classmethod
     def get_iteration(cls):
         return cls.__Iteration
+
+    @classmethod
+    def get_evaluation(cls):
+        return cls.__Evaluation
 
     @classmethod
     def get_trial(cls):
