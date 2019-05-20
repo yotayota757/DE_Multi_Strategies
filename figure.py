@@ -41,7 +41,7 @@ def main(file_name):
   fig = plt.figure() 
   ax = fig.add_subplot(1,1,1)
 
-  if (int(name) < 150):
+  if (int(name) < 3):
     
     # ヒートマップ用の値（配列）
     X = np.arange(-5.12, 5.12, 0.01)
@@ -51,12 +51,12 @@ def main(file_name):
     Z = rastrigin(X, Y, A=10)
     # ヒートマップの生成
     ax.imshow(Z, cmap=cm.jet, extent =[-5.12, 5.12, -5.12, 5.12])
-    # 解集団のプロット
-    ax.scatter(data1[:,0]/100, data1[:,1]/100, c = 'm', alpha = 0.5) # １列目のデータをx軸の値、2列目のデータをy軸の値として与える。   
-    # exclusion範囲の表示
-    ax.scatter(data2[:,0]/100, data2[:,1]/100, s = cf.get_exclusion_dist(), c = 'k', alpha = 0.5)
-    ax.scatter(data2[:,0]/100, data2[:,1]/100, c = 'w', alpha = 0.5) # 50行目以降
-    ax.axis([-5.12, 5.12, -5.12, 5.12])
+    # # 解集団のプロット
+    # ax.scatter(data1[:,0]/100, data1[:,1]/100, c = 'm', alpha = 0.5) # １列目のデータをx軸の値、2列目のデータをy軸の値として与える。   
+    # # exclusion範囲の表示
+    # ax.scatter(data2[:,0]/100, data2[:,1]/100, s = cf.get_exclusion_dist(), c = 'k', alpha = 0.5)
+    # ax.scatter(data2[:,0]/100, data2[:,1]/100, c = 'w', alpha = 0.5) # 50行目以降
+    # ax.axis([-5.12, 5.12, -5.12, 5.12])
     
     # ヒートマップ用の値（配列）
     # X = np.arange(-512, 512, 1)
@@ -82,12 +82,12 @@ def main(file_name):
     Z = schwefel(X, Y, A=418.9829)
     # ヒートマップの生成
     ax.imshow(Z, cmap=cm.jet, extent =[-512, 512, -512, 512])
-    # 解集団のプロット
-    ax.scatter(data1[:,0], data1[:,1], c = 'm', alpha = 0.5) # １列目のデータをx軸の値、2列目のデータをy軸の値として与える。
-    # exclusion範囲の表示
-    ax.scatter(data2[:,0], data2[:,1], s = cf.get_exclusion_dist(), c = 'k', alpha = 0.5)
-    ax.scatter(data2[:,0], data2[:,1], c = 'w', alpha = 0.5) # 50行目以降
-    ax.axis([-512, 512, -512, 512])
+    # # 解集団のプロット
+    # ax.scatter(data1[:,0], data1[:,1], c = 'm', alpha = 0.5) # １列目のデータをx軸の値、2列目のデータをy軸の値として与える。
+    # # exclusion範囲の表示
+    # ax.scatter(data2[:,0], data2[:,1], s = cf.get_exclusion_dist(), c = 'k', alpha = 0.5)
+    # ax.scatter(data2[:,0], data2[:,1], c = 'w', alpha = 0.5) # 50行目以降
+    # ax.axis([-512, 512, -512, 512])
     
 
 
@@ -169,11 +169,11 @@ def movingPeakBenchmark(file_name,mpb):
 if __name__ == '__main__':
   os.chdir("./results/position/0/")
   files = glob.glob("*.csv")
-  # for file in files: 
-  #   main(file)
-  mpb = MovingPeaks(dim=2, npeaks = 10, number_severity=1)
   for file in files: 
-    mpb.changePeaks()
-    # print (file)
-    movingPeakBenchmark(file,mpb)
+    main(file)
+  # mpb = MovingPeaks(dim=2, npeaks = 10, number_severity=1)
+  # for file in files: 
+  #   mpb.changePeaks()
+  #   # print (file)
+  #   movingPeakBenchmark(file,mpb)
 

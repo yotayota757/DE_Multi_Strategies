@@ -87,7 +87,7 @@ class MovingPeaks:
     """
     def __init__(self, dim, random=random, **kargs):
         # Scenario 1 is the default
-        sc = SCENARIO_2.copy()
+        sc = SCENARIO_3.copy()
         sc.update(kargs)
         
         pfunc = sc.get("pfunc")
